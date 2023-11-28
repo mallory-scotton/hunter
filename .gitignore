@@ -1,0 +1,28 @@
+# Ignore all
+*
+
+# Unignore file with extension
+!*.*
+
+# Unignore dir
+!*/
+
+# Ignore logs and tests
+*.json
+*.log
+*.txt
+*.temp
+
+# Ignore objects
+*.a
+*.o
+*.out
+
+# Ignore scripts
+*.sh
+*.pl
+
+# Exception
+!Makefile
+!.gitignore
+assets/Wad/

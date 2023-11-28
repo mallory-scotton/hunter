@@ -80,6 +80,7 @@ void func_move(rwin_t *rwin, game_t *game, obj_t *obs);
 
 // Strings
 int           my_strlen(const char *string);
+int           my_strcasecmp(const char *s1, const char *s2);
 
 // Maths
 int imin(int a, int b);
