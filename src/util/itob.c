@@ -7,7 +7,7 @@
 
 #include "engine.h"
 
-static void my_reverse_str(char *buffer, size_t len)
+void my_reverse_str(char *buffer, size_t len)
 {
     size_t mid;
     char c;

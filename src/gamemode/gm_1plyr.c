@@ -21,7 +21,7 @@ static void util_relay(game_t *game, obj_t *obs, int max_active)
     }
 }
 
-void main_1plyr(game_t *game, obj_t *obs)
+void main_1plyr(win_t *rwin, game_t *game, obj_t *obs)
 {
     int max_active = 2;
 

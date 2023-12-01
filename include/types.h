@@ -143,6 +143,7 @@ typedef struct {
     int ly;
     int up_pressed;
     int down_pressed;
+    int entered;
 } input_t;
 
 typedef struct {
@@ -160,6 +161,7 @@ typedef struct {
     int __dead_ducks;
     int __actives_ducks;
     int __actives;
+    int state;
     int targets[10];
     input_t input;
 } game_t;

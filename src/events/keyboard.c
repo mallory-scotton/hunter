@@ -7,29 +7,30 @@
 
 #include "engine.h"
 
-static void util_enter_gamemode(obj_t *obs)
-{
-    obs[ob_background].data.x = -256;
-    obs[ob_background].data.y = -240;
-    obs[ob_foreground].data.x = -256;
-    obs[ob_foreground].data.y = -240;
-    obs[ob_crosshair].data.x = 240;
-    obs[ob_crosshair].data.y = 224;
-    obs[ob_gun].data.x = 224;
-    obs[ob_gun].data.y = 224;
-    obs[ob_logo].data.x = OFX;
-    obs[ob_logo].data.y = OFY;
-}
-
 static void util_handle_enter(rwin_t *rwin, obj_t *obs, game_t *game,
     evt_t *evt)
 {
-    if (game->__actives == 0) {
-        game->gamemode = gm_1plyr;
-        util_enter_gamemode(obs);
+    if (game->gamemode == gm_menu)
+        game->input.entered = True;
+}
+
+static void leave_game(rwin_t *rwin, obj_t *obs, game_t *game)
+{
+    vctr2f_t vctr = {OFX, OFY};
+
+    game->paused = False;
+    game->multiplier = 1;
+    game->score = 0;
+    game->state = 0;
+    game->gamemode = gm_menu;
+    game->__actives = 0;
+    for (size_t i = 0; i < 6; i++) {
+        obs[ob_duck1 + i].data.x = OFX;
+        obs[ob_duck1 + i].data.y = OFY;
+        obs[ob_duck1 + i].data.dir_x = 0;
+        obs[ob_duck1 + i].data.dir_y = 0;
+        sfSprite_setPosition(obs[ob_duck1 + i].sprt, vctr);
     }
-    if (game->__actives == 5)
-        evts_window_closed(rwin, obs, game, evt);
 }
 
 void evts_key_pressed(rwin_t *rwin, obj_t *obs, game_t *game, evt_t *evt)
@@ -46,11 +47,8 @@ void evts_key_pressed(rwin_t *rwin, obj_t *obs, game_t *game, evt_t *evt)
     }
     if (game->gamemode == gm_menu && evt->key.code == sfKeyEnter)
         util_handle_enter(rwin, obs, game, evt);
-    if (game->gamemode == gm_1plyr && evt->key.code == sfKeyEscape) {
-        game->paused = False;
-        game->gamemode = gm_menu;
-        game->__actives = 0;
-    }
+    if (game->gamemode == gm_1plyr && evt->key.code == sfKeyEscape)
+        leave_game(rwin, obs, game);
 }
 
 void evts_key_released(rwin_t *rwin, obj_t *obs, game_t *game, evt_t *evt)
@@ -59,4 +57,6 @@ void evts_key_released(rwin_t *rwin, obj_t *obs, game_t *game, evt_t *evt)
         game->input.down_pressed = False;
     if (evt->key.code == sfKeyUp)
         game->input.up_pressed = False;
+    if (evt->key.code == sfKeyEnter)
+        game->input.entered = False;
 }

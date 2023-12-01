@@ -87,9 +87,9 @@ int imin(int a, int b);
 int imax(int a, int b);
 
 // Util
-void          throw_error(const char *error_message);
 sfVector2f    get_scaling_factor(rwin_t *rwin);
 void          itob(ssize_t nbr, char *buffer, int base);
+void          my_reverse_str(char *buffer, size_t len);
 
 // Window
 void          win_destroy(rwin_t *rwin);
@@ -107,11 +107,15 @@ void dck_spawn(obj_t *obs, game_t *game, int max_active);
 void dck_direction(obj_t *dck, game_t *game);
 void dck_randomness(int i, obj_t *obs, game_t *game);
 
-void main_1plyr(game_t *game, obj_t *obs);
-void main_2plyr(game_t *game, obj_t *obs);
+void main_1plyr(win_t *rwin, game_t *game, obj_t *obs);
+void main_2plyr(win_t *rwin, game_t *game, obj_t *obs);
 void main_menu(rwin_t *rwin, game_t *game, obj_t *obs);
 
+void util_draw_hud(win_t *rwin, game_t *game, obj_t *obs);
+
 void draw_text(const char *str, vctr3f_t pos, obj_t *obs, rwin_t *rwin);
+void draw_border(vctr2f_t s, vctr2i_t p, obj_t *ob, rwin_t *rwin);
+void util_draw(rwin_t *rwin, obj_t *obs, game_t *game, int a);
 
 //-----------------------------------------------------------------------------
 

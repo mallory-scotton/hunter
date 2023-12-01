@@ -7,7 +7,7 @@
 
 #include "engine.h"
 
-void main_2plyr(game_t *game, obj_t *obs)
+void main_2plyr(win_t *rwin, game_t *game, obj_t *obs)
 {
     return;
 }

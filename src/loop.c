@@ -45,36 +45,15 @@ static void obj_update(obj_t *ob, int ms, obj_t *obs)
         obj_play_animation(ob);
 }
 
-void draw_border(vctr2f_t s, vctr2i_t p, obj_t *ob, rwin_t *rwin)
-{
-    int t = 0;
-
-    for (int y = 0; y < s.y + 2; y++) {
-        t = y > s.y ? 2 : 1;
-        t = y == 0 ? 0 : t;
-        sfSprite_setTextureRect(ob->sprt, (irect_t){64, 160 + t * 16, 16, 16});
-        sfSprite_setPosition(ob->sprt, (vctr2f_t){p.x, p.y + y * 16});
-        sfRenderWindow_drawSprite(rwin, ob->sprt, NULL);
-        for (int i = 0; i < s.x; i++) {
-            sfSprite_setTextureRect(ob->sprt, (irect_t){80, 160 + t * 16, 16,
-                16});
-            sfSprite_setPosition(ob->sprt, (vctr2f_t){p.x + i * 16 + 16,
-                p.y + y * 16});
-            sfRenderWindow_drawSprite(rwin, ob->sprt, NULL);
-        }
-        sfSprite_setTextureRect(ob->sprt, (irect_t){96, 160 + t * 16, 16, 16});
-        sfSprite_setPosition(ob->sprt, (vctr2f_t){p.x + 16 * s.x + 16, p.y + y
-            * 16});
-        sfRenderWindow_drawSprite(rwin, ob->sprt, NULL);
-    }
-}
-
 void draw_paused(game_t *game, obj_t *obs, rwin_t *rwin)
 {
+    obj_t *o = &obs[ob_hud];
+
     if (game->gamemode == gm_menu || game->paused == False)
         return;
-    draw_border((vctr2f_t){8, 3}, (vctr2i_t){176, 176}, &obs[ob_hud], rwin);
-    draw_text("PAUSED", (vctr3f_t){208, 208, 0}, obs, rwin);
+    draw_border((vctr2f_t){14, 4}, (vctr2i_t){144, 176}, o, rwin);
+    draw_text("GAME OVER", (vctr3f_t){200, 200, 0}, obs, rwin);
+    draw_text("PRESS ESCAPE", (vctr3f_t){176, 232, 1}, obs, rwin);
 }
 
 void execute_gamemode(rwin_t *rwin, obj_t *obs, game_t *game)
@@ -82,7 +61,9 @@ void execute_gamemode(rwin_t *rwin, obj_t *obs, game_t *game)
     if (game->gamemode == gm_menu)
         main_menu(rwin, game, obs);
     if (game->gamemode == gm_1plyr)
-        main_1plyr(game, obs);
+        main_1plyr(rwin, game, obs);
+    if (game->gamemode == gm_2plyr)
+        main_2plyr(rwin, game, obs);
 }
 
 void game_loop(rwin_t *rwin, obj_t *obs, sfClock *clk, game_t *game)
@@ -105,5 +86,6 @@ void game_loop(rwin_t *rwin, obj_t *obs, sfClock *clk, game_t *game)
         obs[ob_gun].state--;
     }
     evts_handle(rwin, obs, game);
+    util_draw_hud(rwin, game, obs);
     sfRenderWindow_display(rwin);
 }

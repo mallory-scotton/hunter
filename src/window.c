@@ -13,7 +13,7 @@ rwin_t *init_window(void)
     rwin_t *rwin = sfRenderWindow_create(WIMD, WTTL, WSTY, NULL);
 
     if (!rwin || !icon)
-        throw_error(ERR_COPNW);
+        return (NULL);
     sfRenderWindow_setSize(rwin, WSIZ);
     sfRenderWindow_setFramerateLimit(rwin, WFPS);
     sfRenderWindow_setMouseCursorVisible(rwin, WCRV);

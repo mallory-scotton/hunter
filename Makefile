@@ -6,6 +6,7 @@
 ##
 
 SRC :=	init.c \
+		hud.c \
 		loop.c \
 		main.c \
 		window.c \
@@ -21,7 +22,8 @@ SRC :=	init.c \
 		gamemode/gm_2plyr.c \
 		gamemode/gm_menu.c \
 		gamemode/shared/ducks.c \
-		util/error.c \
+		gamemode/shared/text.c \
+		gamemode/menu/menu.c \
 		util/factor.c \
 		util/maths.c \
 		util/itob.c \

@@ -32,8 +32,6 @@ static obj_t object_create(int i)
 
     ob.sprt = sfSprite_create();
     ob.text = sfTexture_createFromFile(_texts[i], NULL);
-    if (!ob.text)
-        throw_error(ERR_ANFND);
     sfSprite_setTexture(ob.sprt, ob.text, NULL);
     ob.data = _sizes[i];
     if (_sizes[i].mask_width != 0 && _sizes[i].mask_height != 0) {
@@ -73,6 +71,7 @@ static void init_game_relay(game_t *game)
     game->__fire = sfClock_create();
     game->input.m_pressed = False;
     game->input.j_rt = False;
+    game->input.entered = False;
     game->input.down_pressed = False;
     game->input.up_pressed = False;
 }
